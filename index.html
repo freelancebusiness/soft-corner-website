@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nada Abd Elhakem Store</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Tahoma,Arial,sans-serif;
+}
+
+body{
+    background:#fffaf8;
+    color:#222;
+}
+
+/* الشريط العلوي */
+.top-bar{
+    background:#f9dfda;
+    padding:12px 5%;
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+}
+
+/* الهيدر */
+header{
+    background:white;
+    padding:25px 4%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #eee;
+}
+
+.logo{
+    text-align:center;
+}
+
+.logo h1{
+    font-family:Georgia,serif;
+    font-size:42px;
+}
+
+.tag{
+    margin-top:8px;
+    font-size:20px;
+    color:#df777b;
+}
+
+.tag span{
+    border:1px solid #df777b;
+    border-radius:25px;
+    padding:7px 20px;
+    color:#222;
+    margin-left:10px;
+}
+
+.contact{
+    border:1px solid #ead7d2;
+    background:white;
+    border-radius:15px;
+    padding:12px 20px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.search{
+    border:1px solid #ddd;
+    border-radius:25px;
+    padding:12px 18px;
+    width:220px;
+}
+
+.search input{
+    border:0;
+    outline:none;
+    width:100%;
+    font-size:15px;
+}
+
+/* القائمة */
+nav{
+    background:white;
+    display:flex;
+    justify-content:center;
+    gap:70px;
+    padding:18px;
+    border-bottom:1px solid #eee;
+}
+
+nav a{
+    text-decoration:none;
+    color:#222;
+}
+
+nav a:first-child{
+    color:#d96e73;
+    font-weight:bold;
+}
+
+/* البانر */
+.hero{
+    height:310px;
+
+    background:
+    linear-gradient(
+        rgba(255,255,255,.15),
+        rgba(255,255,255,.15)
+    ),
+    url("assets/hero-cotton.png");
+
+    background-position:center;
+    background-size:cover;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.hero-box{
+    background:rgba(255,255,255,.86);
+    padding:28px 55px;
+    border-radius:20px;
+    text-align:center;
+}
+
+.hero-box h2{
+    font-size:35px;
+    margin-bottom:12px;
+}
+
+.hero-box p{
+    font-size:19px;
+    line-height:1.8;
+}
+
+.shop-btn{
+    display:inline-block;
+    background:#d96e73;
+    color:white;
+    border:0;
+    border-radius:8px;
+    padding:13px 35px;
+    margin-top:16px;
+    text-decoration:none;
+}
+
+/* الأقسام */
+section{
+    padding:30px 3%;
+}
+
+.title{
+    text-align:center;
+    font-size:25px;
+    margin-bottom:20px;
+}
+
+.title:after{
+    content:"";
+    display:block;
+    width:55px;
+    height:3px;
+    background:#df777b;
+    margin:8px auto;
+}
+
+.categories{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+}
+
+.category{
+    background:white;
+    border:1px solid #f0ddd9;
+    border-radius:18px;
+    padding:9px;
+    text-align:center;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.category:hover{
+    transform:translateY(-5px);
+}
+
+.category img{
+    width:100%;
+    height:125px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+.category h3{
+    padding:12px;
+    font-size:20px;
+}
+
+/* الفلاتر */
+.filters{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin:10px 0 20px;
+}
+
+.filter{
+    background:white;
+    border:1px solid #ead7d2;
+    border-radius:20px;
+    padding:10px 20px;
+    cursor:pointer;
+}
+
+.filter.active{
+    background:#d96e73;
+    color:white;
+}
+
+/* المنتجات */
+.products{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:10px;
+}
+
+.product{
+    background:white;
+    border:1px solid #f0ddd9;
+    border-radius:13px;
+    padding:7px;
+    text-align:center;
+}
+
+.product img{
+    width:100%;
+    height:145px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.product h3{
+    font-size:15px;
+    margin:9px 0;
+}
+
+.info{
+    font-size:11px;
+    margin-bottom:8px;
+}
+
+.price{
+    color:#df5961;
+    font-weight:bold;
+    font-size:17px;
+    margin:8px;
+}
+
+.size{
+    width:100%;
+    padding:8px;
+    border:1px solid #ddd;
+    border-radius:7px;
+    margin-bottom:7px;
+    background:white;
+}
+
+.add{
+    width:100%;
+    padding:9px;
+    border:0;
+    border-radius:7px;
+    background:#df696f;
+    color:white;
+    cursor:pointer;
+}
+
+/* المميزات */
+.features{
+    margin:10px 7%;
+    padding:20px;
+    background:#fff1ee;
+    border:1px solid #f2d8d4;
+    border-radius:12px;
+
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+
+    text-align:center;
+    gap:15px;
+}
+
+.features b{
+    display:block;
+    margin-bottom:5px;
+}
+
+/* الفوتر */
+footer{
+    background:#fff0ed;
+    padding:30px 8%;
+    text-align:center;
+}
+
+.footer-content{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+}
+
+.copy{
+    border-top:1px solid #ddd;
+    margin-top:25px;
+    padding-top:15px;
+}
+
+/* زر السلة */
+.cart-button{
+    position:fixed;
+    left:18px;
+    bottom:18px;
+
+    background:#dc6d73;
+    color:white;
+
+    width:68px;
+    height:68px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:28px;
+
+    z-index:20;
+    cursor:pointer;
+
+    box-shadow:0 4px 15px #aaa;
+}
+
+.cart-count{
+    position:absolute;
+    top:-5px;
+    right:-4px;
+
+    background:white;
+    color:#222;
+
+    border:1px solid #dc6d73;
+
+    width:26px;
+    height:26px;
+
+    border-radius:50%;
+
+    font-size:13px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* السلة */
+.cart{
+    position:fixed;
+
+    left:-420px;
+    top:0;
+
+    width:400px;
+    max-width:90%;
+
+    height:100vh;
+
+    background:white;
+
+    z-index:30;
+
+    padding:25px;
+
+    box-shadow:4px 0 20px #aaa;
+
+    transition:.3s;
+
+    overflow:auto;
+}
+
+.cart.open{
+    left:0;
+}
+
+.close{
+    float:left;
+    font-size:24px;
+    cursor:pointer;
+}
+
+.cart h2{
+    margin-bottom:25px;
+}
+
+.cart-item{
+    padding:13px 0;
+    border-bottom:1px solid #eee;
+}
+
+.remove{
+    color:#c44;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.total{
+    font-weight:bold;
+    font-size:20px;
+    margin:22px 0;
+}
+
+.whatsapp-order{
+    display:block;
+    background:#159447;
+    color:white;
+    text-align:center;
+    padding:13px;
+    border-radius:8px;
+    text-decoration:none;
+}
+
+/* موبايل */
+@media(max-width:900px){
+
+    .products{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    header{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .categories{
+        grid-template-columns:1fr;
+    }
+
+    .features{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .footer-content{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:550px){
+
+    .products{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    nav{
+        gap:20px;
+    }
+
+    .top-bar{
+        font-size:10px;
+    }
+
+    .logo h1{
+        font-size:28px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+
+<!-- الشريط العلوي -->
+
+<div class="top-bar">
+
+<span>🚚 شحن لجميع المحافظات</span>
+
+<span>📦 الدفع عند الاستلام</span>
+
+<span>🎁 منتجات قطنية بجودة مميزة</span>
+
+</div>
+
+
+<!-- الهيدر -->
+
+<header>
+
+<button class="contact" onclick="openWhatsApp()">
+
+🟢 تواصل معنا
+
+<br>
+
+01070247661
+
+</button>
+
+
+<div class="logo">
+
+<h1>Nada Abd Elhakem Store</h1>
+
+<div class="tag">
+
+<span>للقطنيات</span>
+
+<i>soft corner ♡</i>
+
+</div>
+
+</div>
+
+
+<div class="search">
+
+<input
+
+id="search"
+
+oninput="searchProducts()"
+
+placeholder="ابحثي عن منتج..."
+
+>
+
+</div>
+
+</header>
+
+
+<!-- القائمة -->
+
+<nav>
+
+<a href="#">الرئيسية</a>
+
+<a href="#categories">الأقسام</a>
+
+<a href="#products">المنتجات</a>
+
+<a href="#contact">تواصل معنا</a>
+
+</nav>
+
+
+<!-- البانر -->
+
+<div class="hero">
+
+<div class="hero-box">
+
+<h2>قطنيات مريحة وأنيقة ❤️</h2>
+
+<p>
+
+اختاري من تشكيلتنا
+
+<br>
+
+للحريمي والرجالي والأطفال
+
+</p>
+
+<a class="shop-btn" href="#products">
+
+تسوقي الآن
+
+</a>
+
+</div>
+
+</div>
+
+
+<!-- الأقسام -->
+
+<section id="categories">
+
+<h2 class="title">
+
+اختاري القسم
+
+</h2>
+
+
+<div class="categories">
+
+
+<div
+
+class="category"
+
+onclick="filterProducts('أطفال')"
+
+>
+
+<img src="assets/category-kids.png">
+
+<h3>👶 أطفال</h3>
+
+</div>
+
+
+<div
+
+class="category"
+
+onclick="filterProducts('رجالي')"
+
+>
+
+<img src="assets/category-men.png">
+
+<h3>👨 رجالي</h3>
+
+</div>
+
+
+<div
+
+class="category"
+
+onclick="filterProducts('حريمي')"
+
+>
+
+<img src="assets/category-women.png">
+
+<h3>👩 حريمي</h3>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- المنتجات -->
+
+<section id="products">
+
+<h2 class="title">
+
+منتجاتنا
+
+</h2>
+
+
+<div class="filters">
+
+<button
+
+class="filter active"
+
+onclick="filterProducts('all')"
+
+>
+
+الكل
+
+</button>
+
+
+<button
+
+class="filter"
+
+onclick="filterProducts('حريمي داخلي')"
+
+>
+
+حريمي داخلي
+
+</button>
+
+
+<button
+
+class="filter"
+
+onclick="filterProducts('حريمي خارجي')"
+
+>
+
+حريمي خارجي
+
+</button>
+
+
+<button
+
+class="filter"
+
+onclick="filterProducts('رجالي داخلي')"
+
+>
+
+رجالي داخلي
+
+</button>
+
+
+<button
+
+class="filter"
+
+onclick="filterProducts('رجالي خارجي')"
+
+>
+
+رجالي خارجي
+
+</button>
+
+
+<button
+
+class="filter"
+
+onclick="filterProducts('أطفال داخلي')"
+
+>
+
+أطفال داخلي
+
+</button>
+
+
+<button
+
+class="filter"
+
+onclick="filterProducts('أطفال خارجي')"
+
+>
+
+أطفال خارجي
+
+</button>
+
+</div>
+
+
+<div class="products">
+
+
+<!-- منتج 1 -->
+
+<div
+
+class="product"
+
+data-cat="رجالي داخلي"
+
+data-name="طقم داخلي رجالي"
+
+data-price="250"
+
+>
+
+<img src="assets/product-men-set.png">
+
+<h3>طقم داخلي رجالي</h3>
+
+<div class="info">
+
+المقاسات:
+
+SS - S - M - L - XL - XXL
+
+</div>
+
+<div class="price">
+
+250 LE
+
+</div>
+
+<select class="size">
+
+<option value="">اختاري المقاس</option>
+
+<option>SS</option>
+
+<option>S</option>
+
+<option>M</option>
+
+<option>L</option>
+
+<option>XL</option>
+
+<option>XXL</option>
+
+</select>
+
+<button class="add" onclick="addToCart(this)">
+
+أضف للسلة
+
+</button>
+
+</div>
+
+
+<!-- منتج 2 -->
+
+<div
+
+class="product"
+
+data-cat="حريمي داخلي"
+
+data-name="طقم داخلي حريمي"
+
+data-price="220"
+
+>
+
+<img src="assets/product-women-set.png">
+
+<h3>طقم داخلي حريمي</h3>
+
+<div class="info">
+
+المقاسات:
+
+S - M - L - XL
+
+</div>
+
+<div class="price">
+
+220 LE
+
+</div>
+
+<select class="size">
+
+<option value="">اختاري المقاس</option>
+
+<option>S</option>
+
+<option>M</option>
+
+<option>L</option>
+
+<option>XL</option>
+
+</select>
+
+<button class="add" onclick="addToCart(this)">
+
+أضيفي للسلة
+
+</button>
+
+</div>
+
+
+<!-- منتج 3 -->
+
+<div
+
+class="product"
+
+data-cat="أطفال داخلي"
+
+data-name="طقم داخلي أطفال"
+
+data-price="150"
+
+>
+
+<img src="assets/product-kids-inner.png">
+
+<h3>طقم داخلي أطفال</h3>
+
+<div class="info">
+
+المقاسات:
+
+2 - 4 - 6 - 8 - 10
+
+</div>
+
+<div class="price">
+
+150 LE
+
+</div>
+
+<select class="size">
+
+<option value="">اختاري المقاس</option>
+
+<option>2</option>
+
+<option>4</option>
+
+<option>6</option>
+
+<option>8</option>
+
+<option>10</option>
+
+</select>
+
+<button class="add" onclick="addToCart(this)">
+
+أضيفي للسلة
+
+</button>
+
+</div>
+
+
+<!-- منتج 4 -->
+
+<div
+
+class="product"
+
+data-cat="رجالي خارجي"
+
+data-name="تيشيرت رجالي قطن"
+
+data-price="300"
+
+>
+
+<img src="assets/product-men-shirt.png">
+
+<h3>تيشيرت رجالي قطن</h3>
+
+<div class="info">
+
+المقاسات:
+
+M - L - XL - XXL
+
+</div>
+
+<div class="price">
+
+300 LE
+
+</div>
+
+<select class="size">
+
+<option value="">اختار المقاس</option>
+
+<option>M</option>
+
+<option>L</option>
+
+<option>XL</option>
+
+<option>XXL</option>
+
+</select>
+
+<button class="add" onclick="addToCart(this)">
+
+أضف للسلة
+
+</button>
+
+</div>
+
+
+<!-- منتج 5 -->
+
+<div
+
+class="product"
+
+data-cat="حريمي خارجي"
+
+data-name="بيجامة حريمي قطن"
+
+data-price="350"
+
+>
+
+<img src="assets/product-women-pajama.png">
+
+<h3>بيجامة حريمي قطن</h3>
+
+<div class="info">
+
+المقاسات:
+
+M - L - XL - XXL
+
+</div>
+
+<div class="price">
+
+350 LE
+
+</div>
+
+<select class="size">
+
+<option value="">اختاري المقاس</option>
+
+<option>M</option>
+
+<option>L</option>
+
+<option>XL</option>
+
+<option>XXL</option>
+
+</select>
+
+<button class="add" onclick="addToCart(this)">
+
+أضيفي للسلة
+
+</button>
+
+</div>
+
+
+<!-- منتج 6 -->
+
+<div
+
+class="product"
+
+data-cat="أطفال خارجي"
+
+data-name="طقم أطفال قطن"
+
+data-price="280"
+
+>
+
+<img src="assets/product-kids-outfit.png">
+
+<h3>طقم أطفال قطن</h3>
+
+<div class="info">
+
+المقاسات:
+
+2 - 4 - 6 - 8 - 10
+
+</div>
+
+<div class="price">
+
+280 LE
+
+</div>
+
+<select class="size">
+
+<option value="">اختاري المقاس</option>
+
+<option>2</option>
+
+<option>4</option>
+
+<option>6</option>
+
+<option>8</option>
+
+<option>10</option>
+
+</select>
+
+<button class="add" onclick="addToCart(this)">
+
+أضيفي للسلة
+
+</button>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- المميزات -->
+
+<div class="features">
+
+<div>
+
+🚚
+
+<b>شحن سريع</b>
+
+لكل المحافظات
+
+</div>
+
+
+<div>
+
+🔄
+
+<b>استبدال واسترجاع</b>
+
+خلال 14 يوم
+
+</div>
+
+
+<div>
+
+🏅
+
+<b>جودة مميزة</b>
+
+100% قطن طبيعي
+
+</div>
+
+
+<div>
+
+🎧
+
+<b>دعم عملاء</b>
+
+نحن هنا لخدمتك
+
+</div>
+
+</div>
+
+
+<!-- الفوتر -->
+
+<footer id="contact">
+
+<div class="footer-content">
+
+
+<div>
+
+<h3>Nada Abd Elhakem Store</h3>
+
+<p>
+
+قطنيات مريحة..
+
+أناقتك تبدأ من الراحة
+
+</p>
+
+</div>
+
+
+<div>
+
+<h3>أقسامنا</h3>
+
+<p>
+
+حريمي 👩
+
+<br>
+
+رجالي 👨
+
+<br>
+
+أطفال 👶
+
+</p>
+
+</div>
+
+
+<div>
+
+<h3>تواصل معنا</h3>
+
+<p>
+
+واتساب 🟢
+
+<br>
+
+01070247661
+
+</p>
+
+</div>
+
+
+</div>
+
+
+<div class="copy">
+
+© 2026 Nada Abd Elhakem Store
+
+- جميع الحقوق محفوظة ❤️
+
+</div>
+
+</footer>
+
+
+<!-- السلة -->
+
+<div
+
+class="cart-button"
+
+onclick="openCart()"
+
+>
+
+🛒
+
+<span
+
+class="cart-count"
+
+id="cartCount"
+
+>
+
+0
+
+</span>
+
+</div>
+
+
+<div
+
+class="cart"
+
+id="cart"
+
+>
+
+<span
+
+class="close"
+
+onclick="closeCart()"
+
+>
+
+✕
+
+</span>
+
+
+<h2>
+
+🛒 سلة المشتريات
+
+</h2>
+
+
+<div id="cartItems"></div>
+
+
+<div class="total">
+
+الإجمالي:
+
+<span id="total">
+
+0
+
+</span>
+
+LE
+
+</div>
+
+
+<a
+
+id="checkout"
+
+class="whatsapp-order"
+
+target="_blank"
+
+>
+
+إتمام الطلب عبر واتساب 📱
+
+</a>
+
+
+</div>
+
+
+<script>
+
+let cart = [];
+
+
+/* واتساب */
+
+function openWhatsApp(){
+
+window.open(
+
+"https://wa.me/201070247661?text=مرحباً، أريد الاستفسار عن المنتجات",
+
+"_blank"
+
+);
+
+}
+
+
+/* فلترة المنتجات */
+
+function filterProducts(category){
+
+document
+
+.querySelectorAll(".filter")
+
+.forEach(button=>{
+
+button.classList.remove("active");
+
+});
+
+
+document
+
+.querySelectorAll(".product")
+
+.forEach(product=>{
+
+let productCategory = product.dataset.cat;
+
+let show = false;
+
+
+if(category === "all"){
+
+show = true;
+
+}
+
+else if(productCategory === category){
+
+show = true;
+
+}
+
+else if(
+
+category === "حريمي" &&
+
+productCategory.startsWith("حريمي")
+
+){
+
+show = true;
+
+}
+
+else if(
+
+category === "رجالي" &&
+
+productCategory.startsWith("رجالي")
+
+){
+
+show = true;
+
+}
+
+else if(
+
+category === "أطفال" &&
+
+productCategory.startsWith("أطفال")
+
+){
+
+show = true;
+
+}
+
+
+product.style.display = show ? "block" : "none";
+
+});
+
+}
+
+
+/* البحث */
+
+function searchProducts(){
+
+let text = document
+
+.getElementById("search")
+
+.value
+
+.toLowerCase();
+
+
+document
+
+.querySelectorAll(".product")
+
+.forEach(product=>{
+
+let name = product.dataset.name.toLowerCase();
+
+
+product.style.display =
+
+name.includes(text)
+
+? "block"
+
+: "none";
+
+});
+
+}
+
+
+/* إضافة للسلة */
+
+function addToCart(button){
+
+let product = button.closest(".product");
+
+let size = product
+
+.querySelector(".size")
+
+.value;
+
+
+if(!size){
+
+alert("من فضلك اختاري المقاس أولاً ❤️");
+
+return;
+
+}
+
+
+cart.push({
+
+name:product.dataset.name,
+
+price:Number(product.dataset.price),
+
+size:size
+
+});
+
+
+updateCart();
+
+openCart();
+
+}
+
+
+/* تحديث السلة */
+
+function updateCart(){
+
+let items = document
+
+.getElementById("cartItems");
+
+
+items.innerHTML = "";
+
+
+let total = 0;
+
+
+cart.forEach((item,index)=>{
+
+total += item.price;
+
+
+items.innerHTML += `
+
+<div class="cart-item">
+
+<b>${item.name}</b>
+
+<br>
+
+المقاس: ${item.size}
+
+<br>
+
+السعر: ${item.price} LE
+
+<br>
+
+<span
+
+class="remove"
+
+onclick="removeItem(${index})"
+
+>
+
+حذف المنتج
+
+</span>
+
+</div>
+
+`;
+
+});
+
+
+document.getElementById("total").textContent = total;
+
+document.getElementById("cartCount").textContent = cart.length;
+
+
+/* رسالة الواتساب */
+
+let message =
+
+"مرحباً، أريد حجز المنتجات التالية:%0A%0A";
+
+
+cart.forEach(item=>{
+
+message +=
+
+"- " +
+
+item.name +
+
+" | المقاس: " +
+
+item.size +
+
+" | " +
+
+item.price +
+
+" LE%0A";
+
+});
+
+
+message +=
+
+"%0Aالإجمالي: " +
+
+total +
+
+" LE";
+
+
+document.getElementById("checkout").href =
+
+"https://wa.me/201070247661?text=" +
+
+message;
+
+}
+
+
+/* حذف منتج */
+
+function removeItem(index){
+
+cart.splice(index,1);
+
+updateCart();
+
+}
+
+
+/* فتح السلة */
+
+function openCart(){
+
+document
+
+.getElementById("cart")
+
+.classList.add("open");
+
+}
+
+
+/* غلق السلة */
+
+function closeCart(){
+
+document
+
+.getElementById("cart")
+
+.classList.remove("open");
+
+}
+
+</script>
+
+
+</body>
+
+</html>
