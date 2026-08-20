@@ -1,554 +1,533 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RAFAH SOFT  رفاه</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>RAFAH SOFT رفاه</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Tahoma,Arial,sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,Arial,sans-serif;
 }
 
 body{
-    background:#fffaf8;
-    color:#222;
+background:#fffaf8;
+color:#222;
 }
 
-/* الشريط العلوي */
 .top-bar{
-    background:#f9dfda;
-    padding:12px 5%;
-    display:flex;
-    justify-content:space-between;
-    font-size:14px;
+background:#f9dfda;
+padding:12px 5%;
+display:flex;
+justify-content:space-between;
+font-size:14px;
 }
 
-/* الهيدر */
 header{
-    background:white;
-    padding:25px 4%;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border-bottom:1px solid #eee;
+background:white;
+padding:25px 4%;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid #eee;
 }
 
 .logo{
-    text-align:center;
+text-align:center;
 }
 
 .logo h1{
-    font-family:Georgia,serif;
-    font-size:42px;
+font-family:Georgia,serif;
+font-size:42px;
 }
 
 .tag{
-    margin-top:8px;
-    font-size:20px;
-    color:#df777b;
+margin-top:8px;
+font-size:20px;
+color:#df777b;
 }
 
 .tag span{
-    border:1px solid #df777b;
-    border-radius:25px;
-    padding:7px 20px;
-    color:#222;
-    margin-left:10px;
+border:1px solid #df777b;
+border-radius:25px;
+padding:7px 20px;
+color:#222;
+margin-left:10px;
 }
 
 .contact{
-    border:1px solid #ead7d2;
-    background:white;
-    border-radius:15px;
-    padding:12px 20px;
-    cursor:pointer;
-    font-size:16px;
+border:1px solid #ead7d2;
+background:white;
+border-radius:15px;
+padding:12px 20px;
+cursor:pointer;
+font-size:16px;
 }
 
 .search{
-    border:1px solid #ddd;
-    border-radius:25px;
-    padding:12px 18px;
-    width:220px;
+border:1px solid #ddd;
+border-radius:25px;
+padding:12px 18px;
+width:220px;
 }
 
 .search input{
-    border:0;
-    outline:none;
-    width:100%;
-    font-size:15px;
+border:0;
+outline:none;
+width:100%;
+font-size:15px;
 }
 
-/* القائمة */
 nav{
-    background:white;
-    display:flex;
-    justify-content:center;
-    gap:70px;
-    padding:18px;
-    border-bottom:1px solid #eee;
+background:white;
+display:flex;
+justify-content:center;
+gap:70px;
+padding:18px;
+border-bottom:1px solid #eee;
 }
 
 nav a{
-    text-decoration:none;
-    color:#222;
+text-decoration:none;
+color:#222;
 }
 
 nav a:first-child{
-    color:#d96e73;
-    font-weight:bold;
+color:#d96e73;
+font-weight:bold;
 }
 
-/* البانر */
 .hero{
-    height:310px;
+height:310px;
 
-    background:
-    linear-gradient(
-        rgba(255,255,255,.15),
-        rgba(255,255,255,.15)
-    ),
-    url("assets/hero-cotton.png");
+background:
+linear-gradient(
+rgba(255,255,255,.15),
+rgba(255,255,255,.15)
+),
+url("assets/hero-cotton.png");
 
-    background-position:center;
-    background-size:cover;
+background-position:center;
+background-size:cover;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
 .hero-box{
-    background:rgba(255,255,255,.86);
-    padding:28px 55px;
-    border-radius:20px;
-    text-align:center;
+background:rgba(255,255,255,.86);
+padding:28px 55px;
+border-radius:20px;
+text-align:center;
 }
 
 .hero-box h2{
-    font-size:35px;
-    margin-bottom:12px;
+font-size:35px;
+margin-bottom:12px;
 }
 
 .hero-box p{
-    font-size:19px;
-    line-height:1.8;
+font-size:19px;
+line-height:1.8;
 }
 
 .shop-btn{
-    display:inline-block;
-    background:#d96e73;
-    color:white;
-    border:0;
-    border-radius:8px;
-    padding:13px 35px;
-    margin-top:16px;
-    text-decoration:none;
+display:inline-block;
+background:#d96e73;
+color:white;
+border:0;
+border-radius:8px;
+padding:13px 35px;
+margin-top:16px;
+text-decoration:none;
 }
 
-/* الأقسام */
 section{
-    padding:30px 3%;
+padding:30px 3%;
 }
 
 .title{
-    text-align:center;
-    font-size:25px;
-    margin-bottom:20px;
+text-align:center;
+font-size:25px;
+margin-bottom:20px;
 }
 
 .title:after{
-    content:"";
-    display:block;
-    width:55px;
-    height:3px;
-    background:#df777b;
-    margin:8px auto;
+content:"";
+display:block;
+width:55px;
+height:3px;
+background:#df777b;
+margin:8px auto;
 }
 
 .categories{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:22px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:22px;
 }
 
 .category{
-    background:white;
-    border:1px solid #f0ddd9;
-    border-radius:18px;
-    padding:9px;
-    text-align:center;
-    cursor:pointer;
-    transition:.3s;
+background:white;
+border:1px solid #f0ddd9;
+border-radius:18px;
+padding:9px;
+text-align:center;
+cursor:pointer;
+transition:.3s;
 }
 
 .category:hover{
-    transform:translateY(-5px);
+transform:translateY(-5px);
 }
 
 .category img{
-    width:100%;
-    height:125px;
-    object-fit:cover;
-    border-radius:12px;
+width:100%;
+height:125px;
+object-fit:cover;
+border-radius:12px;
 }
 
 .category h3{
-    padding:12px;
-    font-size:20px;
+padding:12px;
+font-size:20px;
 }
 
-/* الفلاتر */
 .filters{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
-    margin:10px 0 20px;
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap;
+margin:10px 0 20px;
 }
 
 .filter{
-    background:white;
-    border:1px solid #ead7d2;
-    border-radius:20px;
-    padding:10px 20px;
-    cursor:pointer;
+background:white;
+border:1px solid #ead7d2;
+border-radius:20px;
+padding:10px 20px;
+cursor:pointer;
 }
 
 .filter.active{
-    background:#d96e73;
-    color:white;
+background:#d96e73;
+color:white;
 }
 
-/* المنتجات */
 .products{
-    display:grid;
-    grid-template-columns:repeat(6,1fr);
-    gap:10px;
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:10px;
 }
 
 .product{
-    background:white;
-    border:1px solid #f0ddd9;
-    border-radius:13px;
-    padding:7px;
-    text-align:center;
+background:white;
+border:1px solid #f0ddd9;
+border-radius:13px;
+padding:7px;
+text-align:center;
 }
 
 .product-gallery{
-    position:relative;
-    width:100%;
-    height:180px;
-    overflow:hidden;
-    border-radius:10px;
-    background:#fff;
+position:relative;
+width:100%;
+height:180px;
+overflow:hidden;
+border-radius:10px;
+background:#fff;
 }
 
 .product-gallery img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    border-radius:10px;
-    display:block;
-}
-
-.gallery-arrow{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    width:30px;
-    height:30px;
-    border:0;
-    border-radius:50%;
-    background:rgba(255,255,255,.85);
-    color:#555;
-    font-size:20px;
-    line-height:30px;
-    cursor:pointer;
-    z-index:2;
-}
-
-.gallery-prev{right:6px;}
-.gallery-next{left:6px;}
-
-.gallery-dots{
-    position:absolute;
-    bottom:6px;
-    left:0;
-    right:0;
-    display:flex;
-    justify-content:center;
-    gap:5px;
-    z-index:2;
-}
-
-.gallery-dot{
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    border:1px solid #fff;
-    background:rgba(255,255,255,.7);
-    cursor:pointer;
-    padding:0;
-}
-
-.gallery-dot.active{
-    background:#df777b;
+width:100%;
+height:100%;
+object-fit:cover;
+border-radius:10px;
+display:block;
 }
 
 .product h3{
-    font-size:15px;
-    margin:9px 0;
+font-size:15px;
+margin:9px 0;
 }
 
- .description{
-    font-size:11px;
-    line-height:1.6;
-    color:#555;
-    min-height:35px;
-    margin:5px 2px 8px;
+.description{
+font-size:11px;
+line-height:1.6;
+color:#555;
+min-height:35px;
+margin:5px 2px 8px;
 }
 
 .info{
-    font-size:11px;
-    margin-bottom:8px;
+font-size:11px;
+margin-bottom:8px;
 }
 
 .price{
-    color:#df5961;
-    font-weight:bold;
-    font-size:17px;
-    margin:8px;
+color:#df5961;
+font-weight:bold;
+font-size:17px;
+margin:8px;
+}
+
+.old-price{
+color:#999;
+text-decoration:line-through;
+font-size:13px;
+margin-left:5px;
 }
 
 .size{
-    width:100%;
-    padding:8px;
-    border:1px solid #ddd;
-    border-radius:7px;
-    margin-bottom:7px;
-    background:white;
+width:100%;
+padding:8px;
+border:1px solid #ddd;
+border-radius:7px;
+margin-bottom:7px;
+background:white;
 }
 
 .add{
-    width:100%;
-    padding:9px;
-    border:0;
-    border-radius:7px;
-    background:#df696f;
-    color:white;
-    cursor:pointer;
+width:100%;
+padding:9px;
+border:0;
+border-radius:7px;
+background:#df696f;
+color:white;
+cursor:pointer;
 }
 
-/* المميزات */
+.add:disabled{
+background:#aaa;
+cursor:not-allowed;
+}
+
+.out-stock{
+color:#c44;
+font-weight:bold;
+padding:10px;
+}
+
+.loading{
+grid-column:1/-1;
+text-align:center;
+padding:40px;
+font-size:18px;
+color:#777;
+}
+
 .features{
-    margin:10px 7%;
-    padding:20px;
-    background:#fff1ee;
-    border:1px solid #f2d8d4;
-    border-radius:12px;
+margin:10px 7%;
+padding:20px;
+background:#fff1ee;
+border:1px solid #f2d8d4;
+border-radius:12px;
 
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
+display:grid;
+grid-template-columns:repeat(4,1fr);
 
-    text-align:center;
-    gap:15px;
+text-align:center;
+gap:15px;
 }
 
 .features b{
-    display:block;
-    margin-bottom:5px;
+display:block;
+margin-bottom:5px;
 }
 
-/* الفوتر */
 footer{
-    background:#fff0ed;
-    padding:30px 8%;
-    text-align:center;
+background:#fff0ed;
+padding:30px 8%;
+text-align:center;
 }
 
 .footer-content{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:25px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:25px;
 }
 
 .copy{
-    border-top:1px solid #ddd;
-    margin-top:25px;
-    padding-top:15px;
+border-top:1px solid #ddd;
+margin-top:25px;
+padding-top:15px;
 }
 
-/* زر السلة */
 .cart-button{
-    position:fixed;
-    left:18px;
-    bottom:18px;
+position:fixed;
+left:18px;
+bottom:18px;
 
-    background:#dc6d73;
-    color:white;
+background:#dc6d73;
+color:white;
 
-    width:68px;
-    height:68px;
+width:68px;
+height:68px;
 
-    border-radius:50%;
+border-radius:50%;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+display:flex;
+align-items:center;
+justify-content:center;
 
-    font-size:28px;
+font-size:28px;
 
-    z-index:20;
-    cursor:pointer;
+z-index:20;
+cursor:pointer;
 
-    box-shadow:0 4px 15px #aaa;
+box-shadow:0 4px 15px #aaa;
 }
 
 .cart-count{
-    position:absolute;
-    top:-5px;
-    right:-4px;
+position:absolute;
+top:-5px;
+right:-4px;
 
-    background:white;
-    color:#222;
+background:white;
+color:#222;
 
-    border:1px solid #dc6d73;
+border:1px solid #dc6d73;
 
-    width:26px;
-    height:26px;
+width:26px;
+height:26px;
 
-    border-radius:50%;
+border-radius:50%;
 
-    font-size:13px;
+font-size:13px;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
-/* السلة */
 .cart{
-    position:fixed;
+position:fixed;
 
-    left:-420px;
-    top:0;
+left:-420px;
+top:0;
 
-    width:400px;
-    max-width:90%;
+width:400px;
+max-width:90%;
 
-    height:100vh;
+height:100vh;
 
-    background:white;
+background:white;
 
-    z-index:30;
+z-index:30;
 
-    padding:25px;
+padding:25px;
 
-    box-shadow:4px 0 20px #aaa;
+box-shadow:4px 0 20px #aaa;
 
-    transition:.3s;
+transition:.3s;
 
-    overflow:auto;
+overflow:auto;
 }
 
 .cart.open{
-    left:0;
+left:0;
 }
 
 .close{
-    float:left;
-    font-size:24px;
-    cursor:pointer;
+float:left;
+font-size:24px;
+cursor:pointer;
 }
 
 .cart h2{
-    margin-bottom:25px;
+margin-bottom:25px;
 }
 
 .cart-item{
-    padding:13px 0;
-    border-bottom:1px solid #eee;
+padding:13px 0;
+border-bottom:1px solid #eee;
 }
 
 .remove{
-    color:#c44;
-    cursor:pointer;
-    font-size:13px;
+color:#c44;
+cursor:pointer;
+font-size:13px;
 }
 
 .total{
-    font-weight:bold;
-    font-size:20px;
-    margin:22px 0;
+font-weight:bold;
+font-size:20px;
+margin:22px 0;
 }
 
 .whatsapp-order{
-    display:block;
-    background:#159447;
-    color:white;
-    text-align:center;
-    padding:13px;
-    border-radius:8px;
-    text-decoration:none;
+display:block;
+background:#159447;
+color:white;
+text-align:center;
+padding:13px;
+border-radius:8px;
+text-decoration:none;
 }
 
-/* موبايل */
 @media(max-width:900px){
 
-    .products{
-        grid-template-columns:repeat(3,1fr);
-    }
+.products{
+grid-template-columns:repeat(3,1fr);
+}
 
-    header{
-        flex-direction:column;
-        gap:15px;
-    }
+header{
+flex-direction:column;
+gap:15px;
+}
 
-    .categories{
-        grid-template-columns:1fr;
-    }
+.categories{
+grid-template-columns:1fr;
+}
 
-    .features{
-        grid-template-columns:repeat(2,1fr);
-    }
+.features{
+grid-template-columns:repeat(2,1fr);
+}
 
-    .footer-content{
-        grid-template-columns:1fr;
-    }
+.footer-content{
+grid-template-columns:1fr;
+}
+
 }
 
 @media(max-width:550px){
 
-    .products{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    nav{
-        gap:20px;
-    }
-
-    .top-bar{
-        font-size:10px;
-    }
-
-    .logo h1{
-        font-size:28px;
-    }
+.products{
+grid-template-columns:repeat(2,1fr);
 }
+
+nav{
+gap:20px;
+}
+
+.top-bar{
+font-size:10px;
+}
+
+.logo h1{
+font-size:28px;
+}
+
+}
+
 </style>
+
 </head>
 
-
 <body>
-
-
-<!-- الشريط العلوي -->
 
 <div class="top-bar">
 
@@ -561,11 +540,12 @@ footer{
 </div>
 
 
-<!-- الهيدر -->
-
 <header>
 
-<button class="contact" onclick="openWhatsApp()">
+<button
+class="contact"
+onclick="openWhatsApp()"
+>
 
 🟢 تواصل معنا
 
@@ -578,7 +558,9 @@ footer{
 
 <div class="logo">
 
-<h1>  رَفَاه  RAFAH SOFT  </h1>
+<h1>
+رَفَاه RAFAH SOFT
+</h1>
 
 <div class="tag">
 
@@ -594,13 +576,9 @@ footer{
 <div class="search">
 
 <input
-
 id="search"
-
 oninput="searchProducts()"
-
 placeholder="ابحث عن منتج..."
-
 >
 
 </div>
@@ -608,28 +586,34 @@ placeholder="ابحث عن منتج..."
 </header>
 
 
-<!-- القائمة -->
-
 <nav>
 
-<a href="#">الرئيسية</a>
+<a href="#">
+الرئيسية
+</a>
 
-<a href="#categories">الأقسام</a>
+<a href="#categories">
+الأقسام
+</a>
 
-<a href="#products">المنتجات</a>
+<a href="#products">
+المنتجات
+</a>
 
-<a href="#contact">تواصل معنا</a>
+<a href="#contact">
+تواصل معنا
+</a>
 
 </nav>
 
-
-<!-- البانر -->
 
 <div class="hero">
 
 <div class="hero-box">
 
-<h2>ملابس مريحة وأنيقة ❤️</h2>
+<h2>
+ملابس مريحة وأنيقة ❤️
+</h2>
 
 <p>
 
@@ -641,7 +625,10 @@ placeholder="ابحث عن منتج..."
 
 </p>
 
-<a class="shop-btn" href="#products">
+<a
+class="shop-btn"
+href="#products"
+>
 
 تسوقي الآن
 
@@ -652,14 +639,10 @@ placeholder="ابحث عن منتج..."
 </div>
 
 
-<!-- الأقسام -->
-
 <section id="categories">
 
 <h2 class="title">
-
 اختار القسم
-
 </h2>
 
 
@@ -667,46 +650,43 @@ placeholder="ابحث عن منتج..."
 
 
 <div
-
 class="category"
-
 onclick="filterProducts('أطفال')"
-
 >
 
 <img src="assets/category-kids.png">
 
-<h3>👶 أطفال</h3>
+<h3>
+👶 أطفال
+</h3>
 
 </div>
 
 
 <div
-
 class="category"
-
 onclick="filterProducts('رجالي')"
-
 >
 
 <img src="assets/category-men.png">
 
-<h3>👨 رجالي</h3>
+<h3>
+👨 رجالي
+</h3>
 
 </div>
 
 
 <div
-
 class="category"
-
 onclick="filterProducts('حريمي')"
-
 >
 
 <img src="assets/category-women.png">
 
-<h3>👩 حريمي</h3>
+<h3>
+👩 حريمي
+</h3>
 
 </div>
 
@@ -716,499 +696,86 @@ onclick="filterProducts('حريمي')"
 </section>
 
 
-<!-- المنتجات -->
-
 <section id="products">
 
 <h2 class="title">
-
 منتجاتنا
-
 </h2>
 
 
 <div class="filters">
 
 <button
-
 class="filter active"
-
-onclick="filterProducts('all')"
-
+onclick="filterProducts('all',this)"
 >
-
 الكل
-
 </button>
 
 
 <button
-
 class="filter"
-
-onclick="filterProducts('حريمي بيتي')"
-
+onclick="filterProducts('حريمي بيتي',this)"
 >
-
 حريمي بيتي
-
 </button>
 
 
 <button
-
 class="filter"
-
-onclick="filterProducts('حريمي خارجي')"
-
+onclick="filterProducts('حريمي خارجي',this)"
 >
-
 حريمي خارجي
-
 </button>
 
 
 <button
-
 class="filter"
-
-onclick="filterProducts('رجالي داخلي')"
-
+onclick="filterProducts('رجالي داخلي',this)"
 >
-
 رجالي داخلي
-
 </button>
 
 
 <button
-
 class="filter"
-
-onclick="filterProducts('رجالي خارجي')"
-
+onclick="filterProducts('رجالي خارجي',this)"
 >
-
 رجالي خارجي
-
 </button>
 
 
 <button
-
 class="filter"
-
-onclick="filterProducts('أطفال داخلي')"
-
+onclick="filterProducts('أطفال داخلي',this)"
 >
-
 أطفال داخلي
-
 </button>
 
 
 <button
-
 class="filter"
-
-onclick="filterProducts('أطفال خارجي')"
-
+onclick="filterProducts('أطفال خارجي',this)"
 >
-
 أطفال خارجي
-
 </button>
 
 </div>
 
-
-<div class="products">
-
-
-<!-- منتج 1 -->
 
 <div
-
-class="product"
-
-data-cat="رجالي داخلي"
-
-data-name="طقم داخلي رجالي"
-
-data-price="250"
-
+class="products"
+id="productsContainer"
 >
 
-<div class="product-gallery" data-images="assets/product-men-set.png|assets/product-men-set-2.png|assets/product-men-set-3.png">
-<button class="gallery-arrow gallery-prev" type="button" onclick="changeImage(this,-1)">›</button>
-<img src="assets/product-men-set.png" alt="طقم داخلي رجالي">
-<button class="gallery-arrow gallery-next" type="button" onclick="changeImage(this,1)">‹</button>
-<div class="gallery-dots"></div>
+<div class="loading">
+جاري تحميل المنتجات... ⏳
 </div>
-<h3>طقم داخلي رجالي</h3>
-<div class="description">طقم داخلي رجالي مريح بخامة ناعمة ومناسبة للاستخدام اليومي.</div>
-
-<div class="info">
-
-المقاسات:
-
-SS - S - M - L - XL - XXL - XXXL - XXXXL
-
-</div>
-
-<div class="price">
-
-250 LE
-
-</div>
-
-<select class="size">
-
-<option value="">اختار المقاس</option>
-
-<option>SS</option>
-
-<option>S</option>
-
-<option>M</option>
-
-<option>L</option>
-
-<option>XL</option>
-
-<option>XXL</option> 
-
-<option>XXXL</option>
-
-<option>XXXXL</option>
-
-
-
-</select>
-
-<button class="add" onclick="addToCart(this)">
-
-أضف للسلة
-
-</button>
-
-</div>
-
-
-<!-- منتج 2 -->
-
-<div
-
-class="product"
-
-data-cat="حريمي بيتي"
-
-data-name="طقم بيتي حريمي"
-
-data-price="220"
-
->
-
-<div class="product-gallery" data-images="assets/product-women-set.png|assets/product-women-set-2.png|assets/product-women-set-3.png">
-<button class="gallery-arrow gallery-prev" type="button" onclick="changeImage(this,-1)">›</button>
-<img src="assets/product-women-set.png" alt="طقم بيتي حريمي">
-<button class="gallery-arrow gallery-next" type="button" onclick="changeImage(this,1)">‹</button>
-<div class="gallery-dots"></div>
-</div>
-<h3>طقم بيتي حريمي</h3>
-<div class="description">طقم بيتي حريمي مريح وناعم، مناسب للبيت والاستخدام اليومي.</div>
-
-<div class="info">
-
-المقاسات:
-
-S - M - L - XL - XXL - XXXL - XXXXL
-
-</div>
-
-<div class="price">
-
-220 LE
-
-</div>
-
-<select class="size">
-
-<option value="">اختار المقاس</option>
-
-<option>S</option>
-
-<option>M</option>
-
-<option>L</option>
-
-<option>XL</option>
-
-</select>
-
-<button class="add" onclick="addToCart(this)">
-
-أضيف للسلة
-
-</button>
-
-</div>
-
-
-<!-- منتج 3 -->
-
-<div
-
-class="product"
-
-data-cat="أطفال داخلي"
-
-data-name="طقم داخلي أطفال"
-
-data-price="150"
-
->
-
-<div class="product-gallery" data-images="assets/product-kids-inner.png|assets/product-kids-inner-2.png|assets/product-kids-inner-3.png">
-<button class="gallery-arrow gallery-prev" type="button" onclick="changeImage(this,-1)">›</button>
-<img src="assets/product-kids-inner.png" alt="طقم داخلي أطفال">
-<button class="gallery-arrow gallery-next" type="button" onclick="changeImage(this,1)">‹</button>
-<div class="gallery-dots"></div>
-</div>
-<h3>طقم داخلي أطفال</h3>
-<div class="description">طقم داخلي أطفال بخامة ناعمة ومريحة للحركة اليومية.</div>
-
-<div class="info">
-
-المقاسات:
-
-2 - 4 - 6 - 8 - 10
-
-</div>
-
-<div class="price">
-
-150 LE
-
-</div>
-
-<select class="size">
-
-<option value="">اختار المقاس</option>
-
-<option>2</option>
-
-<option>4</option>
-
-<option>6</option>
-
-<option>8</option>
-
-<option>10</option>
-
-</select>
-
-<button class="add" onclick="addToCart(this)">
-
-أضيف للسلة
-
-</button>
-
-</div>
-
-
-<!-- منتج 4 -->
-
-<div
-
-class="product"
-
-data-cat="رجالي خارجي"
-
-data-name="تيشيرت رجالي قطن"
-
-data-price="300"
-
->
-
-<div class="product-gallery" data-images="assets/product-men-shirt.png|assets/product-men-shirt-2.png|assets/product-men-shirt-3.png">
-<button class="gallery-arrow gallery-prev" type="button" onclick="changeImage(this,-1)">›</button>
-<img src="assets/product-men-shirt.png" alt="تيشيرت رجالي قطن">
-<button class="gallery-arrow gallery-next" type="button" onclick="changeImage(this,1)">‹</button>
-<div class="gallery-dots"></div>
-</div>
-<h3>تيشيرت رجالي قطن</h3>
-<div class="description">تيشيرت رجالي مريح بتصميم عملي، مناسب للخروج والاستخدام اليومي.</div>
-
-<div class="info">
-
-المقاسات:
-
-M - L - XL - XXL - XXXL - XXXXL
-
-</div>
-
-<div class="price">
-
-300 LE
-
-</div>
-
-<select class="size">
-
-<option value="">اختار المقاس</option>
-
-<option>M</option>
-
-<option>L</option>
-
-<option>XL</option>
-
-<option>XXL</option>
-
-</select>
-
-<button class="add" onclick="addToCart(this)">
-
-أضف للسلة
-
-</button>
-
-</div>
-
-
-<!-- منتج 5 -->
-
-<div
-
-class="product"
-
-data-cat="حريمي خارجي"
-
-data-name="بيجامة حريمي قطن"
-
-data-price="350"
-
->
-
-<div class="product-gallery" data-images="assets/product-women-pajama.png|assets/product-women-pajama-2.png|assets/product-women-pajama-3.png">
-<button class="gallery-arrow gallery-prev" type="button" onclick="changeImage(this,-1)">›</button>
-<img src="assets/product-women-pajama.png" alt="بيجامة حريمي قطن">
-<button class="gallery-arrow gallery-next" type="button" onclick="changeImage(this,1)">‹</button>
-<div class="gallery-dots"></div>
-</div>
-<h3>بيجامة حريمي قطن</h3>
-<div class="description">بيجامة حريمي مريحة وناعمة، مناسبة للبيت والنوم.</div>
-
-<div class="info">
-
-المقاسات:
-
-M - L - XL - XXL -XXXl - XXXXl
-
-</div>
-
-<div class="price">
-
-350 LE
-
-</div>
-
-<select class="size">
-
-<option value="">اختار المقاس</option>
-
-<option>M</option>
-
-<option>L</option>
-
-<option>XL</option>
-
-<option>XXL</option>
-
-<option>XXXL</option>
-
-<option>XXXXL</option>
-
-</select>
-
-<button class="add" onclick="addToCart(this)">
-
-أضيف للسلة
-
-</button>
-
-</div>
-
-
-<!-- منتج 6 -->
-
-<div
-
-class="product"
-
-data-cat="أطفال خارجي"
-
-data-name="طقم أطفال قطن"
-
-data-price="280"
-
->
-
-<div class="product-gallery" data-images="assets/product-kids-outfit.png|assets/product-kids-outfit-2.png|assets/product-kids-outfit-3.png">
-<button class="gallery-arrow gallery-prev" type="button" onclick="changeImage(this,-1)">›</button>
-<img src="assets/product-kids-outfit.png" alt="طقم أطفال قطن">
-<button class="gallery-arrow gallery-next" type="button" onclick="changeImage(this,1)">‹</button>
-<div class="gallery-dots"></div>
-</div>
-<h3>طقم أطفال قطن</h3>
-<div class="description">طقم أطفال عملي ومريح، مناسب للحركة والاستخدام اليومي.</div>
-
-<div class="info">
-
-المقاسات:
-
-2 - 4 - 6 - 8 - 10
-
-</div>
-
-<div class="price">
-
-280 LE
-
-</div>
-
-<select class="size">
-
-<option value="">اختار المقاس</option>
-
-<option>2</option>
-
-<option>4</option>
-
-<option>6</option>
-
-<option>8</option>
-
-<option>10</option>
-
-</select>
-
-<button class="add" onclick="addToCart(this)">
-
-أضيف للسلة
-
-</button>
-
-</div>
-
 
 </div>
 
 </section>
 
-
-<!-- المميزات -->
 
 <div class="features">
 
@@ -1216,7 +783,9 @@ data-price="280"
 
 🚚
 
-<b>شحن سريع</b>
+<b>
+شحن سريع
+</b>
 
 لكل المحافظات
 
@@ -1227,7 +796,9 @@ data-price="280"
 
 🔄
 
-<b>استبدال واسترجاع</b>
+<b>
+استبدال واسترجاع
+</b>
 
 خلال 2 يوم
 
@@ -1238,7 +809,9 @@ data-price="280"
 
 🏅
 
-<b>جودة مميزة</b>
+<b>
+جودة مميزة
+</b>
 
 100% قطن طبيعي
 
@@ -1249,7 +822,9 @@ data-price="280"
 
 🎧
 
-<b>دعم عملاء</b>
+<b>
+دعم عملاء
+</b>
 
 نحن هنا لخدمتك
 
@@ -1258,23 +833,20 @@ data-price="280"
 </div>
 
 
-<!-- الفوتر -->
-
 <footer id="contact">
 
 <div class="footer-content">
 
-
 <div>
 
-<h3>  رَفَاه    </h3>
+<h3>
+رَفَاه
+</h3>
 
 <p>
-
 ملابس مريحة..
-
+<br>
 أناقتك تبدأ من الراحة
-
 </p>
 
 </div>
@@ -1282,7 +854,9 @@ data-price="280"
 
 <div>
 
-<h3>أقسامنا</h3>
+<h3>
+أقسامنا
+</h3>
 
 <p>
 
@@ -1303,7 +877,9 @@ data-price="280"
 
 <div>
 
-<h3>تواصل معنا</h3>
+<h3>
+تواصل معنا
+</h3>
 
 <p>
 
@@ -1317,13 +893,12 @@ data-price="280"
 
 </div>
 
-
 </div>
 
 
 <div class="copy">
 
-© 2026 RAFAH SOFT  رفاه
+© 2026 RAFAH SOFT رفاه
 
 - جميع الحقوق محفوظة ❤️
 
@@ -1332,58 +907,38 @@ data-price="280"
 </footer>
 
 
-<!-- السلة -->
-
 <div
-
 class="cart-button"
-
 onclick="openCart()"
-
 >
 
 🛒
 
 <span
-
 class="cart-count"
-
 id="cartCount"
-
 >
-
 0
-
 </span>
 
 </div>
 
 
 <div
-
 class="cart"
-
 id="cart"
-
 >
 
 <span
-
 class="close"
-
 onclick="closeCart()"
-
 >
-
 ✕
-
 </span>
 
 
 <h2>
-
 🛒 سلة المشتريات
-
 </h2>
 
 
@@ -1395,9 +950,7 @@ onclick="closeCart()"
 الإجمالي:
 
 <span id="total">
-
 0
-
 </span>
 
 LE
@@ -1406,29 +959,668 @@ LE
 
 
 <a
-
 id="checkout"
-
 class="whatsapp-order"
-
 target="_blank"
-
 >
 
 إتمام الطلب عبر واتساب 📱
 
 </a>
 
-
 </div>
 
 
 <script>
 
+/* =========================
+   Supabase
+========================= */
+
+const SUPABASE_URL =
+"https://dzykruhsbfbxxivekfhq.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_CNTMX5leuWKhzuF5m1py_g_kHmTND_d";
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+/* =========================
+   المتغيرات
+========================= */
+
+let allProducts = [];
+
 let cart = [];
 
 
+/* =========================
+   تحميل المنتجات
+========================= */
+
+async function loadProducts(){
+
+const container =
+document.getElementById("productsContainer");
+
+
+container.innerHTML =
+`
+<div class="loading">
+جاري تحميل المنتجات... ⏳
+</div>
+`;
+
+
+const {data,error} =
+await supabaseClient
+.from("products")
+.select("*")
+.order("created_at",{ascending:false});
+
+
+if(error){
+
+console.error(error);
+
+container.innerHTML =
+`
+<div class="loading">
+حدث خطأ أثناء تحميل المنتجات ❌
+</div>
+`;
+
+return;
+}
+
+
+allProducts =
+data || [];
+
+
+displayProducts(allProducts);
+
+}
+
+
+/* =========================
+   عرض المنتجات
+========================= */
+
+function displayProducts(products){
+
+const container =
+document.getElementById("productsContainer");
+
+
+container.innerHTML="";
+
+
+if(!products.length){
+
+container.innerHTML =
+`
+<div class="loading">
+لا توجد منتجات حاليًا.
+</div>
+`;
+
+return;
+}
+
+
+products.forEach(product=>{
+
+const div =
+document.createElement("div");
+
+div.className="product";
+
+
+div.dataset.cat =
+product.category || "";
+
+
+div.dataset.name =
+product.name || "";
+
+
+div.dataset.price =
+product.price || 0;
+
+
+/* المقاسات */
+
+let sizes=[];
+
+if(product.sizes){
+
+sizes =
+product.sizes
+.split(",")
+.map(size=>size.trim())
+.filter(Boolean);
+
+}
+
+
+let sizesHTML="";
+
+
+if(sizes.length){
+
+sizesHTML = `
+
+<select class="size">
+
+<option value="">
+اختار المقاس
+</option>
+
+${sizes.map(size=>
+`<option>${size}</option>`
+).join("")}
+
+</select>
+
+`;
+
+}
+
+
+/* السعر والخصم */
+
+const price =
+Number(product.price || 0);
+
+const discount =
+Number(product.discount || 0);
+
+
+let priceHTML;
+
+
+if(discount>0){
+
+const finalPrice =
+price -
+(price*discount/100);
+
+
+priceHTML = `
+
+<div class="price">
+
+<span class="old-price">
+${price} LE
+</span>
+
+${finalPrice.toFixed(2)} LE
+
+</div>
+
+`;
+
+}else{
+
+priceHTML = `
+
+<div class="price">
+${price} LE
+</div>
+
+`;
+
+}
+
+
+/* المخزون */
+
+let stockHTML;
+
+
+if(product.stock){
+
+stockHTML = `
+
+<button
+class="add"
+onclick="addToCart(this)"
+>
+أضف للسلة
+</button>
+
+`;
+
+}else{
+
+stockHTML = `
+
+<div class="out-stock">
+غير متوفر حاليًا ❌
+</div>
+
+`;
+
+}
+
+
+/* HTML المنتج */
+
+div.innerHTML = `
+
+<div class="product-gallery">
+
+${
+product.image_url
+?
+`
+<img
+src="${product.image_url}"
+alt="${product.name || ""}"
+>
+`
+:
+`
+<div
+style="
+height:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#aaa;
+"
+>
+لا توجد صورة
+</div>
+`
+}
+
+</div>
+
+
+<h3>
+${product.name || ""}
+</h3>
+
+
+<div class="description">
+${product.description || ""}
+</div>
+
+
+<div class="info">
+المقاسات:
+${product.sizes || "غير محدد"}
+</div>
+
+
+${priceHTML}
+
+
+${sizesHTML}
+
+
+${stockHTML}
+
+`;
+
+
+container.appendChild(div);
+
+});
+
+}
+
+
+/* =========================
+   الفلاتر
+========================= */
+
+function filterProducts(category,button){
+
+document
+.querySelectorAll(".filter")
+.forEach(btn=>{
+btn.classList.remove("active");
+});
+
+
+if(button){
+button.classList.add("active");
+}
+
+
+let filtered;
+
+
+if(category==="all"){
+
+filtered =
+allProducts;
+
+}else{
+
+filtered =
+allProducts.filter(product=>{
+
+const cat =
+product.category || "";
+
+
+if(cat===category){
+return true;
+}
+
+
+if(
+category==="حريمي" &&
+cat.startsWith("حريمي")
+){
+return true;
+}
+
+
+if(
+category==="رجالي" &&
+cat.startsWith("رجالي")
+){
+return true;
+}
+
+
+if(
+category==="أطفال" &&
+cat.startsWith("أطفال")
+){
+return true;
+}
+
+
+return false;
+
+});
+
+}
+
+
+displayProducts(filtered);
+
+}
+
+
+/* =========================
+   البحث
+========================= */
+
+function searchProducts(){
+
+const text =
+document
+.getElementById("search")
+.value
+.toLowerCase()
+.trim();
+
+
+const filtered =
+allProducts.filter(product=>{
+
+const name =
+(product.name || "")
+.toLowerCase();
+
+
+const description =
+(product.description || "")
+.toLowerCase();
+
+
+return
+name.includes(text) ||
+description.includes(text);
+
+});
+
+
+displayProducts(filtered);
+
+}
+
+
+/* =========================
+   السلة
+========================= */
+
+function addToCart(button){
+
+const product =
+button.closest(".product");
+
+
+const sizeElement =
+product.querySelector(".size");
+
+
+const size =
+sizeElement
+?
+sizeElement.value
+:
+"بدون مقاس";
+
+
+if(sizeElement && !size){
+
+alert(
+"من فضلك اختاري المقاس أولاً ❤️"
+);
+
+return;
+}
+
+
+const name =
+product.dataset.name;
+
+
+const originalPrice =
+Number(product.dataset.price);
+
+
+const originalProduct =
+allProducts.find(
+item=>item.name===name
+);
+
+
+let finalPrice =
+originalPrice;
+
+
+if(originalProduct){
+
+const discount =
+Number(originalProduct.discount || 0);
+
+
+if(discount>0){
+
+finalPrice =
+originalPrice -
+(
+originalPrice *
+discount /
+100
+);
+
+}
+
+}
+
+
+cart.push({
+
+name:name,
+
+price:finalPrice,
+
+size:size
+
+});
+
+
+updateCart();
+
+openCart();
+
+}
+
+
+/* =========================
+   تحديث السلة
+========================= */
+
+function updateCart(){
+
+const items =
+document.getElementById("cartItems");
+
+
+items.innerHTML="";
+
+
+let total=0;
+
+
+cart.forEach((item,index)=>{
+
+total += Number(item.price);
+
+
+items.innerHTML += `
+
+<div class="cart-item">
+
+<b>
+${item.name}
+</b>
+
+<br>
+
+المقاس:
+${item.size}
+
+<br>
+
+السعر:
+${Number(item.price).toFixed(2)}
+LE
+
+<br>
+
+<span
+class="remove"
+onclick="removeItem(${index})"
+>
+حذف المنتج
+</span>
+
+</div>
+
+`;
+
+});
+
+
+document.getElementById("total").textContent =
+total.toFixed(2);
+
+
+document.getElementById("cartCount").textContent =
+cart.length;
+
+
 /* واتساب */
+
+let message =
+"مرحباً، أريد حجز المنتجات التالية:%0A%0A";
+
+
+cart.forEach(item=>{
+
+message +=
+"- " +
+item.name +
+" | المقاس: " +
+item.size +
+" | " +
+Number(item.price).toFixed(2) +
+" LE%0A";
+
+});
+
+
+message +=
+"%0Aالإجمالي: " +
+total.toFixed(2) +
+" LE";
+
+
+document.getElementById("checkout").href =
+"https://wa.me/201070247661?text=" +
+message;
+
+}
+
+
+/* =========================
+   حذف من السلة
+========================= */
+
+function removeItem(index){
+
+cart.splice(index,1);
+
+updateCart();
+
+}
+
+
+/* =========================
+   فتح السلة
+========================= */
+
+function openCart(){
+
+document
+.getElementById("cart")
+.classList.add("open");
+
+}
+
+
+/* =========================
+   غلق السلة
+========================= */
+
+function closeCart(){
+
+document
+.getElementById("cart")
+.classList.remove("open");
+
+}
+
+
+/* =========================
+   واتساب
+========================= */
 
 function openWhatsApp(){
 
@@ -1443,380 +1635,13 @@ window.open(
 }
 
 
-/* معرض صور المنتجات */
-
-function initGalleries(){
-
-document.querySelectorAll(".product-gallery").forEach(gallery=>{
-
-let images = gallery.dataset.images.split("|");
-let image = gallery.querySelector("img");
-let dots = gallery.querySelector(".gallery-dots");
-
-gallery.dataset.index = "0";
-
-dots.innerHTML = "";
-
-images.forEach((src,index)=>{
-
-let dot = document.createElement("button");
-
-dot.className = "gallery-dot" + (index === 0 ? " active" : "");
-
-dot.type = "button";
-
-dot.onclick = function(){
-
-showImage(gallery,index);
-
-};
-
-dots.appendChild(dot);
-
-});
-
-image.src = images[0];
-
-});
-
-}
-
-function showImage(gallery,index){
-
-let images = gallery.dataset.images.split("|");
-
-if(index < 0) index = images.length - 1;
-
-if(index >= images.length) index = 0;
-
-gallery.dataset.index = index;
-
-gallery.querySelector("img").src = images[index];
-
-gallery.querySelectorAll(".gallery-dot").forEach((dot,i)=>{
-
-dot.classList.toggle("active",i === index);
-
-});
-
-}
-
-function changeImage(button,direction){
-
-let gallery = button.closest(".product-gallery");
-
-let current = Number(gallery.dataset.index || 0);
-
-showImage(gallery,current + direction);
-
-}
-
-
-/* فلترة المنتجات */
-
-function filterProducts(category){
-
-document
-
-.querySelectorAll(".filter")
-
-.forEach(button=>{
-
-button.classList.remove("active");
-
-});
-
-
-document
-
-.querySelectorAll(".product")
-
-.forEach(product=>{
-
-let productCategory = product.dataset.cat;
-
-let show = false;
-
-
-if(category === "all"){
-
-show = true;
-
-}
-
-else if(productCategory === category){
-
-show = true;
-
-}
-
-else if(
-
-category === "حريمي" &&
-
-productCategory.startsWith("حريمي")
-
-){
-
-show = true;
-
-}
-
-else if(
-
-category === "رجالي" &&
-
-productCategory.startsWith("رجالي")
-
-){
-
-show = true;
-
-}
-
-else if(
-
-category === "أطفال" &&
-
-productCategory.startsWith("أطفال")
-
-){
-
-show = true;
-
-}
-
-
-product.style.display = show ? "block" : "none";
-
-});
-
-}
-
-
-/* البحث */
-
-function searchProducts(){
-
-let text = document
-
-.getElementById("search")
-
-.value
-
-.toLowerCase();
-
-
-document
-
-.querySelectorAll(".product")
-
-.forEach(product=>{
-
-let name = product.dataset.name.toLowerCase();
-
-
-product.style.display =
-
-name.includes(text)
-
-? "block"
-
-: "none";
-
-});
-
-}
-
-
-/* إضافة للسلة */
-
-function addToCart(button){
-
-let product = button.closest(".product");
-
-let size = product
-
-.querySelector(".size")
-
-.value;
-
-
-if(!size){
-
-alert("من فضلك اختاري المقاس أولاً ❤️");
-
-return;
-
-}
-
-
-cart.push({
-
-name:product.dataset.name,
-
-price:Number(product.dataset.price),
-
-size:size
-
-});
-
-
-updateCart();
-
-openCart();
-
-}
-
-
-/* تحديث السلة */
-
-function updateCart(){
-
-let items = document
-
-.getElementById("cartItems");
-
-
-items.innerHTML = "";
-
-
-let total = 0;
-
-
-cart.forEach((item,index)=>{
-
-total += item.price;
-
-
-items.innerHTML += `
-
-<div class="cart-item">
-
-<b>${item.name}</b>
-
-<br>
-
-المقاس: ${item.size}
-
-<br>
-
-السعر: ${item.price} LE
-
-<br>
-
-<span
-
-class="remove"
-
-onclick="removeItem(${index})"
-
->
-
-حذف المنتج
-
-</span>
-
-</div>
-
-`;
-
-});
-
-
-document.getElementById("total").textContent = total;
-
-document.getElementById("cartCount").textContent = cart.length;
-
-
-/* رسالة الواتساب */
-
-let message =
-
-"مرحباً، أريد حجز المنتجات التالية:%0A%0A";
-
-
-cart.forEach(item=>{
-
-message +=
-
-"- " +
-
-item.name +
-
-" | المقاس: " +
-
-item.size +
-
-" | " +
-
-item.price +
-
-" LE%0A";
-
-});
-
-
-message +=
-
-"%0Aالإجمالي: " +
-
-total +
-
-" LE";
-
-
-document.getElementById("checkout").href =
-
-"https://wa.me/201070247661?text=" +
-
-message;
-
-}
-
-
-/* حذف منتج */
-
-function removeItem(index){
-
-cart.splice(index,1);
-
-updateCart();
-
-}
-
-
-/* فتح السلة */
-
-function openCart(){
-
-document
-
-.getElementById("cart")
-
-.classList.add("open");
-
-}
-
-
-/* غلق السلة */
-
-function closeCart(){
-
-document
-
-.getElementById("cart")
-
-.classList.remove("open");
-
-}
-
-
-/* تشغيل معارض الصور */
-initGalleries();
+/* =========================
+   تشغيل
+========================= */
+
+loadProducts();
 
 </script>
-
 
 </body>
 
