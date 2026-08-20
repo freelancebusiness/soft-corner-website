@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدارة المنتجات</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f5f2;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .box {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+    }
+
+    input, textarea, button {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    button {
+      background: #333;
+      color: white;
+      cursor: pointer;
+      border: none;
+    }
+
+    button:hover {
+      opacity: .9;
+    }
+
+    .logout {
+      background: #b33;
+    }
+
+    .product {
+      border: 1px solid #eee;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .product img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    #adminPanel {
+      display: none;
+    }
+
+    #message {
+      text-align: center;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>لوحة إدارة المنتجات 🛍️</h1>
+
+  <!-- تسجيل الدخول -->
+  <div class="box" id="loginBox">
+
+    <h2>تسجيل الدخول</h2>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="البريد الإلكتروني"
+    >
+
+    <input
+      type="password"
+      id="password"
+      placeholder="كلمة المرور"
+    >
+
+    <button onclick="login()">
+      دخول
+    </button>
+
+  </div>
+
+
+  <!-- لوحة الإدارة -->
+  <div id="adminPanel">
+
+    <div class="box">
+
+      <h2>إضافة منتج جديد</h2>
+
+      <input
+        type="text"
+        id="name"
+        placeholder="اسم المنتج"
+      >
+
+      <input
+        type="number"
+        id="price"
+        placeholder="السعر"
+        step="0.01"
+      >
+
+      <input
+        type="number"
+        id="discount"
+        placeholder="الخصم"
+        step="0.01"
+      >
+
+      <textarea
+        id="description"
+        placeholder="وصف المنتج"
+      ></textarea>
+
+      <input
+        type="text"
+        id="sizes"
+        placeholder="المقاسات مثال: S,M,L,XL"
+      >
+
+      <label>
+        <input
+          type="checkbox"
+          id="stock"
+          checked
+        >
+        المنتج متوفر
+      </label>
+
+      <input
+        type="file"
+        id="image"
+        accept="image/*"
+      >
+
+      <button onclick="addProduct()">
+        إضافة المنتج
+      </button>
+
+      <div id="message"></div>
+
+    </div>
+
+
+    <div class="box">
+
+      <h2>المنتجات الحالية</h2>
+
+      <div id="productsList">
+        جاري تحميل المنتجات...
+      </div>
+
+    </div>
+
+
+    <button class="logout" onclick="logout()">
+      تسجيل الخروج
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  // ==============================
+  // بيانات Supabase
+  // ==============================
+
+  const SUPABASE_URL = "https://dzykruhsbfbxxivekfhq.supabase.co";
+
+  const SUPABASE_KEY = "sb_publishable_CNTMX5leuWKhzuF5m1py_g_kHmTND_d";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  // ==============================
+  // تسجيل الدخول
+  // ==============================
+
+  async function login() {
+
+    const email =
+      document.getElementById("email").value;
+
+    const password =
+      document.getElementById("password").value;
+
+    const { error } =
+      await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+    if (error) {
+
+      alert("خطأ في تسجيل الدخول: " + error.message);
+
+      return;
+    }
+
+    showAdmin();
+
+  }
+
+
+  // ==============================
+  // إظهار لوحة الإدارة
+  // ==============================
+
+  function showAdmin() {
+
+    document.getElementById("loginBox").style.display = "none";
+
+    document.getElementById("adminPanel").style.display = "block";
+
+    loadProducts();
+
+  }
+
+
+  // ==============================
+  // إضافة منتج
+  // ==============================
+
+  async function addProduct() {
+
+    const name =
+      document.getElementById("name").value;
+
+    const price =
+      document.getElementById("price").value;
+
+    const discount =
+      document.getElementById("discount").value || 0;
+
+    const description =
+      document.getElementById("description").value;
+
+    const sizes =
+      document.getElementById("sizes").value;
+
+    const stock =
+      document.getElementById("stock").checked;
+
+    const imageFile =
+      document.getElementById("image").files[0];
+
+
+    if (!name || !price) {
+
+      alert("اكتبي اسم المنتج والسعر");
+
+      return;
+    }
+
+
+    let imageUrl = "";
+
+
+    // رفع الصورة
+    if (imageFile) {
+
+      const fileName =
+        Date.now() + "-" + imageFile.name;
+
+
+      const { error: uploadError } =
+        await supabaseClient.storage
+          .from("product-images")
+          .upload(fileName, imageFile);
+
+
+      if (uploadError) {
+
+        alert(
+          "حدث خطأ أثناء رفع الصورة: " +
+          uploadError.message
+        );
+
+        return;
+      }
+
+
+      const { data } =
+        supabaseClient.storage
+          .from("product-images")
+          .getPublicUrl(fileName);
+
+
+      imageUrl = data.publicUrl;
+
+    }
+
+
+    // إضافة البيانات إلى جدول المنتجات
+    const { error } =
+      await supabaseClient
+        .from("products")
+        .insert({
+
+          name: name,
+
+          price: Number(price),
+
+          discount: Number(discount),
+
+          description: description,
+
+          image_url: imageUrl,
+
+          sizes: sizes,
+
+          stock: stock
+
+        });
+
+
+    if (error) {
+
+      alert(
+        "حدث خطأ: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    document.getElementById("message").innerText =
+      "تم إضافة المنتج بنجاح ✅";
+
+
+    // تنظيف الحقول
+
+    document.getElementById("name").value = "";
+
+    document.getElementById("price").value = "";
+
+    document.getElementById("discount").value = "";
+
+    document.getElementById("description").value = "";
+
+    document.getElementById("sizes").value = "";
+
+    document.getElementById("image").value = "";
+
+
+    loadProducts();
+
+  }
+
+
+  // ==============================
+  // تحميل المنتجات
+  // ==============================
+
+  async function loadProducts() {
+
+    const { data, error } =
+      await supabaseClient
+        .from("products")
+        .select("*")
+        .order("name");
+
+
+    if (error) {
+
+      document.getElementById("productsList").innerText =
+        "حدث خطأ أثناء تحميل المنتجات";
+
+      return;
+    }
+
+
+    const list =
+      document.getElementById("productsList");
+
+    list.innerHTML = "";
+
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML =
+        "<p>لا توجد منتجات حتى الآن.</p>";
+
+      return;
+    }
+
+
+    data.forEach(product => {
+
+      const div =
+        document.createElement("div");
+
+      div.className = "product";
+
+
+      div.innerHTML = `
+
+        ${
+          product.image_url
+          ? `<img src="${product.image_url}">`
+          : ""
+        }
+
+        <h3>${product.name}</h3>
+
+        <p>السعر: ${product.price}</p>
+
+        <p>الخصم: ${product.discount}</p>
+
+        <p>
+          ${
+            product.stock
+            ? "متوفر ✅"
+            : "غير متوفر ❌"
+          }
+        </p>
+
+      `;
+
+
+      list.appendChild(div);
+
+    });
+
+  }
+
+
+  // ==============================
+  // تسجيل الخروج
+  // ==============================
+
+  async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    location.reload();
+
+  }
+
+
+  // ==============================
+  // التحقق من تسجيل الدخول
+  // ==============================
+
+  async function checkUser() {
+
+    const {
+      data: { session }
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if (session) {
+
+      showAdmin();
+
+    }
+
+  }
+
+
+  checkUser();
+
+</script>
+
+</body>
+</html>
