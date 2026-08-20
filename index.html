@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Nada Abd Elhakem Store</title>
+<title>RAFAH SOFT  رفاه</title>
 
 <style>
 *{
@@ -240,16 +240,78 @@ section{
     text-align:center;
 }
 
-.product img{
+.product-gallery{
+    position:relative;
     width:100%;
-    height:145px;
+    height:180px;
+    overflow:hidden;
+    border-radius:10px;
+    background:#fff;
+}
+
+.product-gallery img{
+    width:100%;
+    height:100%;
     object-fit:cover;
     border-radius:10px;
+    display:block;
+}
+
+.gallery-arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:30px;
+    height:30px;
+    border:0;
+    border-radius:50%;
+    background:rgba(255,255,255,.85);
+    color:#555;
+    font-size:20px;
+    line-height:30px;
+    cursor:pointer;
+    z-index:2;
+}
+
+.gallery-prev{right:6px;}
+.gallery-next{left:6px;}
+
+.gallery-dots{
+    position:absolute;
+    bottom:6px;
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:center;
+    gap:5px;
+    z-index:2;
+}
+
+.gallery-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    border:1px solid #fff;
+    background:rgba(255,255,255,.7);
+    cursor:pointer;
+    padding:0;
+}
+
+.gallery-dot.active{
+    background:#df777b;
 }
 
 .product h3{
     font-size:15px;
     margin:9px 0;
+}
+
+ .description{
+    font-size:11px;
+    line-height:1.6;
+    color:#555;
+    min-height:35px;
+    margin:5px 2px 8px;
 }
 
 .info{
@@ -516,11 +578,11 @@ footer{
 
 <div class="logo">
 
-<h1>Nada Abd Elhakem Store</h1>
+<h1>  رَفَاه  RAFAH SOFT  </h1>
 
 <div class="tag">
 
-<span>للقطنيات</span>
+<span>New Fashion</span>
 
 <i>soft corner ♡</i>
 
@@ -537,7 +599,7 @@ id="search"
 
 oninput="searchProducts()"
 
-placeholder="ابحثي عن منتج..."
+placeholder="ابحث عن منتج..."
 
 >
 
@@ -567,11 +629,11 @@ placeholder="ابحثي عن منتج..."
 
 <div class="hero-box">
 
-<h2>قطنيات مريحة وأنيقة ❤️</h2>
+<h2>ملابس مريحة وأنيقة ❤️</h2>
 
 <p>
 
-اختاري من تشكيلتنا
+اختار من تشكيلتنا
 
 <br>
 
@@ -596,7 +658,7 @@ placeholder="ابحثي عن منتج..."
 
 <h2 class="title">
 
-اختاري القسم
+اختار القسم
 
 </h2>
 
@@ -684,11 +746,11 @@ onclick="filterProducts('all')"
 
 class="filter"
 
-onclick="filterProducts('حريمي داخلي')"
+onclick="filterProducts('حريمي بيتي')"
 
 >
 
-حريمي داخلي
+حريمي بيتي
 
 </button>
 
@@ -777,15 +839,20 @@ data-price="250"
 
 >
 
-<img src="assets/product-men-set.png">
-
+<div class="product-gallery" data-images="assets/product-men-set.png|assets/product-men-set-2.png|assets/product-men-set-3.png">
+<button class="gallery-arrow gallery-prev" type="button" onclick="changeImage(this,-1)">›</button>
+<img src="assets/product-men-set.png" alt="طقم داخلي رجالي">
+<button class="gallery-arrow gallery-next" type="button" onclick="changeImage(this,1)">‹</button>
+<div class="gallery-dots"></div>
+</div>
 <h3>طقم داخلي رجالي</h3>
+<div class="description">طقم داخلي رجالي مريح بخامة ناعمة ومناسبة للاستخدام اليومي.</div>
 
 <div class="info">
 
 المقاسات:
 
-SS - S - M - L - XL - XXL
+SS - S - M - L - XL - XXL - XXXL - XXXXL
 
 </div>
 
@@ -797,7 +864,7 @@ SS - S - M - L - XL - XXL
 
 <select class="size">
 
-<option value="">اختاري المقاس</option>
+<option value="">اختار المقاس</option>
 
 <option>SS</option>
 
@@ -809,7 +876,13 @@ SS - S - M - L - XL - XXL
 
 <option>XL</option>
 
-<option>XXL</option>
+<option>XXL</option> 
+
+<option>XXXL</option>
+
+<option>XXXXL</option>
+
+
 
 </select>
 
@@ -828,23 +901,28 @@ SS - S - M - L - XL - XXL
 
 class="product"
 
-data-cat="حريمي داخلي"
+data-cat="حريمي بيتي"
 
-data-name="طقم داخلي حريمي"
+data-name="طقم بيتي حريمي"
 
 data-price="220"
 
 >
 
-<img src="assets/product-women-set.png">
-
-<h3>طقم داخلي حريمي</h3>
+<div class="product-gallery" data-images="assets/product-women-set.png|assets/product-women-set-2.png|assets/product-women-set-3.png">
+<button class="gallery-arrow gallery-prev" type="button" onclick="changeImage(this,-1)">›</button>
+<img src="assets/product-women-set.png" alt="طقم بيتي حريمي">
+<button class="gallery-arrow gallery-next" type="button" onclick="changeImage(this,1)">‹</button>
+<div class="gallery-dots"></div>
+</div>
+<h3>طقم بيتي حريمي</h3>
+<div class="description">طقم بيتي حريمي مريح وناعم، مناسب للبيت والاستخدام اليومي.</div>
 
 <div class="info">
 
 المقاسات:
 
-S - M - L - XL
+S - M - L - XL - XXL - XXXL - XXXXL
 
 </div>
 
@@ -856,7 +934,7 @@ S - M - L - XL
 
 <select class="size">
 
-<option value="">اختاري المقاس</option>
+<option value="">اختار المقاس</option>
 
 <option>S</option>
 
@@ -870,7 +948,7 @@ S - M - L - XL
 
 <button class="add" onclick="addToCart(this)">
 
-أضيفي للسلة
+أضيف للسلة
 
 </button>
 
@@ -891,9 +969,14 @@ data-price="150"
 
 >
 
-<img src="assets/product-kids-inner.png">
-
+<div class="product-gallery" data-images="assets/product-kids-inner.png|assets/product-kids-inner-2.png|assets/product-kids-inner-3.png">
+<button class="gallery-arrow gallery-prev" type="button" onclick="changeImage(this,-1)">›</button>
+<img src="assets/product-kids-inner.png" alt="طقم داخلي أطفال">
+<button class="gallery-arrow gallery-next" type="button" onclick="changeImage(this,1)">‹</button>
+<div class="gallery-dots"></div>
+</div>
 <h3>طقم داخلي أطفال</h3>
+<div class="description">طقم داخلي أطفال بخامة ناعمة ومريحة للحركة اليومية.</div>
 
 <div class="info">
 
@@ -911,7 +994,7 @@ data-price="150"
 
 <select class="size">
 
-<option value="">اختاري المقاس</option>
+<option value="">اختار المقاس</option>
 
 <option>2</option>
 
@@ -927,7 +1010,7 @@ data-price="150"
 
 <button class="add" onclick="addToCart(this)">
 
-أضيفي للسلة
+أضيف للسلة
 
 </button>
 
@@ -948,15 +1031,20 @@ data-price="300"
 
 >
 
-<img src="assets/product-men-shirt.png">
-
+<div class="product-gallery" data-images="assets/product-men-shirt.png|assets/product-men-shirt-2.png|assets/product-men-shirt-3.png">
+<button class="gallery-arrow gallery-prev" type="button" onclick="changeImage(this,-1)">›</button>
+<img src="assets/product-men-shirt.png" alt="تيشيرت رجالي قطن">
+<button class="gallery-arrow gallery-next" type="button" onclick="changeImage(this,1)">‹</button>
+<div class="gallery-dots"></div>
+</div>
 <h3>تيشيرت رجالي قطن</h3>
+<div class="description">تيشيرت رجالي مريح بتصميم عملي، مناسب للخروج والاستخدام اليومي.</div>
 
 <div class="info">
 
 المقاسات:
 
-M - L - XL - XXL
+M - L - XL - XXL - XXXL - XXXXL
 
 </div>
 
@@ -1003,15 +1091,20 @@ data-price="350"
 
 >
 
-<img src="assets/product-women-pajama.png">
-
+<div class="product-gallery" data-images="assets/product-women-pajama.png|assets/product-women-pajama-2.png|assets/product-women-pajama-3.png">
+<button class="gallery-arrow gallery-prev" type="button" onclick="changeImage(this,-1)">›</button>
+<img src="assets/product-women-pajama.png" alt="بيجامة حريمي قطن">
+<button class="gallery-arrow gallery-next" type="button" onclick="changeImage(this,1)">‹</button>
+<div class="gallery-dots"></div>
+</div>
 <h3>بيجامة حريمي قطن</h3>
+<div class="description">بيجامة حريمي مريحة وناعمة، مناسبة للبيت والنوم.</div>
 
 <div class="info">
 
 المقاسات:
 
-M - L - XL - XXL
+M - L - XL - XXL -XXXl - XXXXl
 
 </div>
 
@@ -1023,7 +1116,7 @@ M - L - XL - XXL
 
 <select class="size">
 
-<option value="">اختاري المقاس</option>
+<option value="">اختار المقاس</option>
 
 <option>M</option>
 
@@ -1033,11 +1126,15 @@ M - L - XL - XXL
 
 <option>XXL</option>
 
+<option>XXXL</option>
+
+<option>XXXXL</option>
+
 </select>
 
 <button class="add" onclick="addToCart(this)">
 
-أضيفي للسلة
+أضيف للسلة
 
 </button>
 
@@ -1058,9 +1155,14 @@ data-price="280"
 
 >
 
-<img src="assets/product-kids-outfit.png">
-
+<div class="product-gallery" data-images="assets/product-kids-outfit.png|assets/product-kids-outfit-2.png|assets/product-kids-outfit-3.png">
+<button class="gallery-arrow gallery-prev" type="button" onclick="changeImage(this,-1)">›</button>
+<img src="assets/product-kids-outfit.png" alt="طقم أطفال قطن">
+<button class="gallery-arrow gallery-next" type="button" onclick="changeImage(this,1)">‹</button>
+<div class="gallery-dots"></div>
+</div>
 <h3>طقم أطفال قطن</h3>
+<div class="description">طقم أطفال عملي ومريح، مناسب للحركة والاستخدام اليومي.</div>
 
 <div class="info">
 
@@ -1078,7 +1180,7 @@ data-price="280"
 
 <select class="size">
 
-<option value="">اختاري المقاس</option>
+<option value="">اختار المقاس</option>
 
 <option>2</option>
 
@@ -1094,7 +1196,7 @@ data-price="280"
 
 <button class="add" onclick="addToCart(this)">
 
-أضيفي للسلة
+أضيف للسلة
 
 </button>
 
@@ -1127,7 +1229,7 @@ data-price="280"
 
 <b>استبدال واسترجاع</b>
 
-خلال 14 يوم
+خلال 2 يوم
 
 </div>
 
@@ -1165,11 +1267,11 @@ data-price="280"
 
 <div>
 
-<h3>Nada Abd Elhakem Store</h3>
+<h3>  رَفَاه    </h3>
 
 <p>
 
-قطنيات مريحة..
+ملابس مريحة..
 
 أناقتك تبدأ من الراحة
 
@@ -1221,7 +1323,7 @@ data-price="280"
 
 <div class="copy">
 
-© 2026 Nada Abd Elhakem Store
+© 2026 RAFAH SOFT  رفاه
 
 - جميع الحقوق محفوظة ❤️
 
@@ -1337,6 +1439,75 @@ window.open(
 "_blank"
 
 );
+
+}
+
+
+/* معرض صور المنتجات */
+
+function initGalleries(){
+
+document.querySelectorAll(".product-gallery").forEach(gallery=>{
+
+let images = gallery.dataset.images.split("|");
+let image = gallery.querySelector("img");
+let dots = gallery.querySelector(".gallery-dots");
+
+gallery.dataset.index = "0";
+
+dots.innerHTML = "";
+
+images.forEach((src,index)=>{
+
+let dot = document.createElement("button");
+
+dot.className = "gallery-dot" + (index === 0 ? " active" : "");
+
+dot.type = "button";
+
+dot.onclick = function(){
+
+showImage(gallery,index);
+
+};
+
+dots.appendChild(dot);
+
+});
+
+image.src = images[0];
+
+});
+
+}
+
+function showImage(gallery,index){
+
+let images = gallery.dataset.images.split("|");
+
+if(index < 0) index = images.length - 1;
+
+if(index >= images.length) index = 0;
+
+gallery.dataset.index = index;
+
+gallery.querySelector("img").src = images[index];
+
+gallery.querySelectorAll(".gallery-dot").forEach((dot,i)=>{
+
+dot.classList.toggle("active",i === index);
+
+});
+
+}
+
+function changeImage(button,direction){
+
+let gallery = button.closest(".product-gallery");
+
+let current = Number(gallery.dataset.index || 0);
+
+showImage(gallery,current + direction);
 
 }
 
@@ -1639,6 +1810,10 @@ document
 .classList.remove("open");
 
 }
+
+
+/* تشغيل معارض الصور */
+initGalleries();
 
 </script>
 
