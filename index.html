@@ -1294,11 +1294,29 @@ function animateCartCount(){
    تحميل المنتجات
 ========================= */
 
-async function loadProducts(){
+let productsLoading = false;
+let lastProductsRefresh = 0;
+let productsRefreshTimer = null;
+let productsRealtimeChannel = null;
+
+/* =========================
+   تحميل المنتجات بدون كاش
+   + منع التحميلات المتزامنة
+========================= */
+
+async function loadProducts(options = {}){
 
 const container =
 document.getElementById("productsContainer");
 
+const silent = options.silent === true;
+
+/* لو فيه تحميل شغال بالفعل، منمنعش طلب تاني */
+if(productsLoading) return;
+
+productsLoading = true;
+
+if(!silent){
 
 container.innerHTML =
 `
@@ -1307,35 +1325,179 @@ container.innerHTML =
 </div>
 `;
 
+}
 
-const {data,error} =
-await supabaseClient
-.from("products")
-.select("*")
-.order("created_at",{ascending:false});
+try{
 
+/*
+  بنستخدم REST مباشرة مع cache:no-store
+  ومع رقم عشوائي في الرابط، عشان المتصفح مايرجعش
+  نسخة قديمة من بيانات المنتجات.
+*/
+const cacheBuster = Date.now();
 
-if(error){
+const response = await fetch(
+`${SUPABASE_URL}/rest/v1/products?select=*&order=created_at.desc&_rafah=${cacheBuster}`,
+{
+  method:"GET",
+  cache:"no-store",
+  headers:{
+    "apikey":SUPABASE_KEY,
+    "Authorization":`Bearer ${SUPABASE_KEY}`,
+    "Cache-Control":"no-cache, no-store, must-revalidate",
+    "Pragma":"no-cache"
+  }
+}
+);
 
-console.error(error);
+if(!response.ok){
+
+let errorText = "";
+try{ errorText = await response.text(); }catch(e){}
+
+throw new Error(
+`Products request failed: ${response.status} ${errorText}`
+);
+
+}
+
+const data = await response.json();
+
+allProducts = Array.isArray(data) ? data : [];
+
+displayProducts(allProducts);
+displayFeaturedProducts();
+
+lastProductsRefresh = Date.now();
+
+}catch(error){
+
+console.error("RAFAH products loading error:",error);
+
+if(!allProducts.length){
 
 container.innerHTML =
 `
 <div class="loading">
-حدث خطأ أثناء تحميل المنتجات ❌
+حدث خطأ أثناء تحميل المنتجات ❌<br>
+<span style="font-size:13px;color:#999">جربي تحديث الصفحة بعد لحظات ❤️</span>
 </div>
 `;
 
-return;
-}
+}else if(!silent){
 
-
-allProducts =
-data || [];
-
-
+/* لو البيانات القديمة موجودة، نفضل نعرضها بدل ما نمسح المتجر */
 displayProducts(allProducts);
 displayFeaturedProducts();
+
+}
+
+}finally{
+
+productsLoading = false;
+
+}
+
+}
+
+/* =========================
+   تحديث المنتجات تلقائيًا
+========================= */
+
+function setupProductsAutoRefresh(){
+
+/* تنظيف أي مؤقت قديم لو الدالة اشتغلت مرة ثانية */
+if(productsRefreshTimer){
+clearInterval(productsRefreshTimer);
+}
+
+/*
+  تحديث احتياطي كل 30 ثانية.
+  ده مفيد حتى لو Supabase Realtime مش مفعّل على جدول products.
+*/
+productsRefreshTimer = setInterval(()=>{
+  loadProducts({silent:true});
+},30000);
+
+
+/*
+  لما العميل يرجع للتاب أو يفتح المتصفح من جديد،
+  نعمل تحديث للمنتجات لو مرّ أكثر من 10 ثواني.
+*/
+const refreshWhenVisible = ()=>{
+
+if(document.hidden) return;
+
+if(Date.now() - lastProductsRefresh >= 10000){
+  loadProducts({silent:true});
+}
+
+};
+
+window.addEventListener("focus",refreshWhenVisible);
+
+document.addEventListener("visibilitychange",refreshWhenVisible);
+
+
+/* تحديث عند استعادة الاتصال بالإنترنت */
+window.addEventListener("online",()=>{
+  loadProducts({silent:true});
+});
+
+}
+
+/* =========================
+   Supabase Realtime
+   تحديث فوري عند إضافة/تعديل/حذف منتج
+========================= */
+
+function setupProductsRealtime(){
+
+try{
+
+if(productsRealtimeChannel){
+  supabaseClient.removeChannel(productsRealtimeChannel);
+}
+
+productsRealtimeChannel =
+supabaseClient
+.channel("rafah-products-live")
+.on(
+"postgres_changes",
+{
+  event:"*",
+  schema:"public",
+  table:"products"
+},
+(payload)=>{
+
+console.log("RAFAH products changed:",payload.eventType);
+
+/*
+  ننتظر لحظة صغيرة عشان لو فيه أكثر من تغيير متتالي
+  ناخد أحدث نسخة كاملة من قاعدة البيانات.
+*/
+setTimeout(()=>{
+  loadProducts({silent:true});
+},300);
+
+}
+)
+.subscribe((status)=>{
+
+console.log("RAFAH products realtime:",status);
+
+});
+
+}catch(error){
+
+/*
+  لو Realtime غير مفعّل في Supabase،
+  المتجر يفضل شغال عادي بفضل التحديث كل 30 ثانية.
+*/
+console.warn("RAFAH Realtime unavailable:",error);
+
+}
 
 }
 
@@ -1718,6 +1880,8 @@ document.addEventListener("keydown",event=>{if(event.key==="Escape"){closeCart()
 
 loadSavedData();
 loadProducts();
+setupProductsAutoRefresh();
+setupProductsRealtime();
 
 </script>
 
