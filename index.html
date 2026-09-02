@@ -11,6 +11,7 @@ content="width=device-width, initial-scale=1.0"
 >
 
 <title>RAFAH SOFT رفاه</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2216%22 fill=%22%23df777b%22/%3E%3Ctext x=%2232%22 y=%2244%22 text-anchor=%22middle%22 font-size=%2238%22 font-family=%22Georgia%22 fill=%22white%22%3ER%3C/text%3E%3C/svg%3E">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -1337,7 +1338,7 @@ try{
 const cacheBuster = Date.now();
 
 const response = await fetch(
-`${SUPABASE_URL}/rest/v1/products?select=*&order=created_at.desc&_rafah=${cacheBuster}`,
+`${SUPABASE_URL}/rest/v1/products?select=*&order=created_at.desc`,
 {
   method:"GET",
   cache:"no-store",
