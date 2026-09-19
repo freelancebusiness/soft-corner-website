@@ -1301,7 +1301,7 @@ let productsRefreshTimer = null;
 let productsRealtimeChannel = null;
 
 /* =========================
-   تحميل المنتجات بدون كاش
+   تحميل المنتجات بشكل أخف على Supabase
    + منع التحميلات المتزامنة
 ========================= */
 
@@ -1331,22 +1331,31 @@ container.innerHTML =
 try{
 
 /*
-  بنستخدم REST مباشرة مع cache:no-store
-  ومع رقم عشوائي في الرابط، عشان المتصفح مايرجعش
-  نسخة قديمة من بيانات المنتجات.
+  بنطلب فقط الأعمدة التي يستخدمها المتجر فعليًا،
+  بدل select=* الذي كان يرجع كل أعمدة جدول products.
+  لا نضيف cache-buster ولا no-store، لأننا نستخدم Realtime
+  لتحديث المنتجات فورًا عند الإضافة أو التعديل أو الحذف.
 */
-const cacheBuster = Date.now();
+const productFields = [
+  "id",
+  "name",
+  "price",
+  "discount",
+  "description",
+  "image_url",
+  "sizes",
+  "category",
+  "stock",
+  "created_at"
+].join(",");
 
 const response = await fetch(
-`${SUPABASE_URL}/rest/v1/products?select=*&order=created_at.desc`,
+`${SUPABASE_URL}/rest/v1/products?select=${encodeURIComponent(productFields)}&order=created_at.desc`,
 {
   method:"GET",
-  cache:"no-store",
   headers:{
     "apikey":SUPABASE_KEY,
-    "Authorization":`Bearer ${SUPABASE_KEY}`,
-    "Cache-Control":"no-cache, no-store, must-revalidate",
-    "Pragma":"no-cache"
+    "Authorization":`Bearer ${SUPABASE_KEY}`
   }
 }
 );
@@ -1402,7 +1411,7 @@ productsLoading = false;
 }
 
 /* =========================
-   تحديث المنتجات تلقائيًا
+   تحديث المنتجات بدون تحميل كل 30 ثانية
 ========================= */
 
 function setupProductsAutoRefresh(){
@@ -1410,26 +1419,20 @@ function setupProductsAutoRefresh(){
 /* تنظيف أي مؤقت قديم لو الدالة اشتغلت مرة ثانية */
 if(productsRefreshTimer){
 clearInterval(productsRefreshTimer);
+productsRefreshTimer = null;
 }
 
 /*
-  تحديث احتياطي كل 30 ثانية.
-  ده مفيد حتى لو Supabase Realtime مش مفعّل على جدول products.
-*/
-productsRefreshTimer = setInterval(()=>{
-  loadProducts({silent:true});
-},30000);
-
-
-/*
-  لما العميل يرجع للتاب أو يفتح المتصفح من جديد،
-  نعمل تحديث للمنتجات لو مرّ أكثر من 10 ثواني.
+  لا نعمل polling كل 30 ثانية.
+  التحديث الطبيعي يتم عن طريق Supabase Realtime.
+  ونحتفظ بتحديث احتياطي عند الرجوع للصفحة/التبويب أو عودة الإنترنت.
 */
 const refreshWhenVisible = ()=>{
 
 if(document.hidden) return;
 
-if(Date.now() - lastProductsRefresh >= 10000){
+/* لا نعيد الطلب إذا تم التحديث منذ أقل من 60 ثانية */
+if(Date.now() - lastProductsRefresh >= 60000){
   loadProducts({silent:true});
 }
 
@@ -1438,7 +1441,6 @@ if(Date.now() - lastProductsRefresh >= 10000){
 window.addEventListener("focus",refreshWhenVisible);
 
 document.addEventListener("visibilitychange",refreshWhenVisible);
-
 
 /* تحديث عند استعادة الاتصال بالإنترنت */
 window.addEventListener("online",()=>{
@@ -1470,17 +1472,18 @@ supabaseClient
   schema:"public",
   table:"products"
 },
-(payload)=>{
+payload=>{
 
 console.log("RAFAH products changed:",payload.eventType);
 
 /*
-  ننتظر لحظة صغيرة عشان لو فيه أكثر من تغيير متتالي
-  ناخد أحدث نسخة كاملة من قاعدة البيانات.
+  debounce للتغييرات المتتالية، حتى لا نرسل عدة طلبات
+  كاملة لو الإدارة عملت أكثر من تعديل في نفس اللحظة.
 */
-setTimeout(()=>{
+clearTimeout(window.__rafahProductsRealtimeTimer);
+window.__rafahProductsRealtimeTimer = setTimeout(()=>{
   loadProducts({silent:true});
-},300);
+},1000);
 
 }
 )
@@ -1494,7 +1497,8 @@ console.log("RAFAH products realtime:",status);
 
 /*
   لو Realtime غير مفعّل في Supabase،
-  المتجر يفضل شغال عادي بفضل التحديث كل 30 ثانية.
+  المتجر يظل شغال بالبيانات الموجودة،
+  ويحدثها عند رجوع المستخدم للصفحة أو الإنترنت.
 */
 console.warn("RAFAH Realtime unavailable:",error);
 
